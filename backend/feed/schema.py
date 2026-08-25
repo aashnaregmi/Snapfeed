@@ -1,4 +1,5 @@
 from pydantic import BaseModel
+from datetime import datetime
 
 
 class PostResponse(BaseModel):
@@ -6,4 +7,8 @@ class PostResponse(BaseModel):
     username: str
     media_url: str
     media_type: str
-    caption: str | None = None
+    caption: str | None
+    created_at: datetime
+
+    class Config:
+        from_attributes = True

@@ -1,15 +1,37 @@
-from fastapi import FastAPI, UploadFile, File, HTTPException
+from fastapi import FastAPI, UploadFile, File, HTTPException, Depends, Form
 from pathlib import Path
 import shutil
+from sqlalchemy.orm import Session
 
-from feed.demo import demo_posts
-from feed.schema import PostResponse
+from backend.feed.schema import PostResponse
+from database.db import Base, engine, SessionLocal
+from database.model import Post
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 
 app = FastAPI()
 
 
-UPLOAD_DIR = Path("uploads")
-UPLOAD_DIR.mkdir(exist_ok=True)
+origins = [
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+Base.metadata.create_all(bind=engine)
+
+
+UPLOAD_DIR = Path(__file__).resolve().parent / "uploads"
+UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
+
+app.mount("/files", StaticFiles(directory=str(UPLOAD_DIR)), name="files")
 
 ALLOWED_TYPES = {
     "image/jpeg",
@@ -20,22 +42,33 @@ ALLOWED_TYPES = {
     "video/quicktime",
 }
 
+
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
+
+
 # =========================
 # Feed
 # =========================
 
 
 @app.get("/posts", response_model=list[PostResponse])
-def get_posts():
-    return demo_posts
+def get_posts(db: Session = Depends(get_db)):
+    posts = db.query(Post).all()
+
+    return posts
 
 
-@app.post("/upload")
+@app.post("/upload", response_model=PostResponse)
 async def upload_media(
-    id: int,
-    username: str,
+    username: str = Form(...),
+    caption: str | None = Form(None),
     file: UploadFile = File(...),
-    caption: str | None = None,
+    db: Session = Depends(get_db),
 ):
     if file.content_type not in ALLOWED_TYPES:
         raise HTTPException(
@@ -53,16 +86,16 @@ async def upload_media(
     url = f"/files/{file.filename}"
 
     # Create a new post
-    new_post = {
-        "id": id,
-        "username": username,
-        "media_url": url,
-        "media_type": media_type,
-        "caption": caption,
-    }
+    new_post = Post(
+        username=username,
+        media_url=url,
+        media_type=media_type,
+        caption=caption,
+    )
 
-    # Add the new post to our temporary feed
-    demo_posts.append(new_post)
+    db.add(new_post)
+    db.commit()
+    db.refresh(new_post)
 
     return new_post
 
