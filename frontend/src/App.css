@@ -1,41 +1,43 @@
+/* =========================
+   GENERAL
+========================= */
+
 * {
   box-sizing: border-box;
-  margin: 0;
-  padding: 0;
 }
 
 body {
+  margin: 0;
   font-family: Arial, sans-serif;
   background: #f5f5f5;
   color: #222;
 }
 
+
 /* =========================
-   GENERAL PAGE
+   LOGIN / UPLOAD PAGE
 ========================= */
 
 .page {
   min-height: 100vh;
-  padding: 40px 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 30px;
 }
 
-/* =========================
-   UPLOAD PAGE
-========================= */
-
 .post-card {
-  width: 500px;
-  max-width: 100%;
-  margin: 30px auto;
-  padding: 25px;
+  width: 100%;
+  max-width: 500px;
   background: white;
+  padding: 30px;
   border-radius: 15px;
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
 }
 
 .post-card h1 {
+  margin-top: 0;
   text-align: center;
-  margin-bottom: 8px;
 }
 
 .subtitle {
@@ -44,7 +46,10 @@ body {
   margin-bottom: 25px;
 }
 
-/* Upload form */
+
+/* =========================
+   FORMS
+========================= */
 
 form {
   display: flex;
@@ -52,45 +57,44 @@ form {
   gap: 15px;
 }
 
-form input[type="text"] {
+input {
   width: 100%;
   padding: 12px;
   border: 1px solid #ddd;
   border-radius: 8px;
   font-size: 15px;
+}
+
+input:focus {
   outline: none;
+  border-color: #555;
 }
 
-form input[type="text"]:focus {
-  border-color: #888;
-}
-
-form input[type="file"] {
+input[type="file"] {
   padding: 10px;
-  border: 1px dashed #bbb;
-  border-radius: 8px;
-  background: #fafafa;
 }
 
-/* Upload button */
 
-form button {
-  padding: 12px;
+/* =========================
+   BUTTONS
+========================= */
+
+button {
   border: none;
+  padding: 12px 18px;
   border-radius: 8px;
-  background: #111;
-  color: white;
-  font-size: 16px;
   cursor: pointer;
+  font-size: 15px;
+  margin: 5px;
 }
 
-form button:hover {
-  background: #333;
+button:hover {
+  opacity: 0.85;
 }
 
-form button:disabled {
-  background: #999;
+button:disabled {
   cursor: not-allowed;
+  opacity: 0.6;
 }
 
 
@@ -99,41 +103,33 @@ form button:disabled {
 ========================= */
 
 .feed {
-  min-height: 100vh;
+  width: 100%;
+  max-width: 700px;
+  margin: 0 auto;
   padding: 30px 20px;
 }
 
 .feed h1 {
   text-align: center;
-  margin-bottom: 30px;
+  margin-bottom: 25px;
 }
 
 
 /* =========================
-   POST CARD
+   POST
 ========================= */
 
 .feed .post-card {
-  width: 500px;
   max-width: 100%;
-  margin: 25px auto;
-  padding: 15px;
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  margin-bottom: 25px;
+  padding: 20px;
 }
-
-
-/* =========================
-   POST HEADER
-   username     date
-========================= */
 
 .post-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 12px;
+  margin-bottom: 15px;
 }
 
 .post-header strong {
@@ -145,73 +141,96 @@ form button:disabled {
   color: #777;
 }
 
-
-/* =========================
-   POST IMAGE
-========================= */
-
-.post-card img {
-  width: 100%;
-  height: 400px;
-  object-fit: cover;
-  border-radius: 10px;
-  display: block;
-}
-
-
-/* =========================
-   POST VIDEO
-========================= */
-
+.post-card img,
 .post-card video {
   width: 100%;
-  height: 400px;
+  max-height: 600px;
   object-fit: cover;
   border-radius: 10px;
-  display: block;
 }
 
-
-/* =========================
-   CAPTION
-========================= */
-
 .caption {
-  margin-top: 12px;
+  margin-top: 15px;
   font-size: 15px;
   line-height: 1.5;
 }
+.switch-auth {
+  text-align: center;
+  margin-top: 20px;
+  color: #777;
+}
 
+.link-button {
+  background: none;
+  border: none;
+  padding: 0;
+  margin-left: 5px;
+  font-size: 15px;
+  cursor: pointer;
+}
 
-/* =========================
-   MOBILE
-========================= */
+.link-button:hover {
+  text-decoration: underline;
+}
+.navbar {
+  width: 100%;
+  padding: 15px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: white;
+  border-bottom: 1px solid #ddd;
+}
 
-@media (max-width: 600px) {
+.navbar h2 {
+  margin: 0;
+}
 
-  .page {
-    padding: 20px 10px;
-  }
+.navbar button {
+  margin-left: 8px;
+}
 
-  .post-card {
-    width: 100%;
-    padding: 18px;
-  }
+.auth-card {
+  width: 100%;
+  max-width: 400px;
+  background: white;
+  padding: 35px;
+  border-radius: 15px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+}
 
-  .feed .post-card {
-    width: 100%;
-  }
+.auth-card h1 {
+  text-align: center;
+  margin-bottom: 5px;
+}
 
-  .post-card img,
-  .post-card video {
-    height: 350px;
-  }
+.auth-card > p {
+  text-align: center;
+  color: #777;
+  margin-bottom: 25px;
+}
 
-  .post-header strong {
-    font-size: 16px;
-  }
+.auth-card form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
 
-  .post-header span {
-    font-size: 12px;
-  }
+.auth-switch {
+  margin-top: 20px;
+  text-align: center;
+  color: #777;
+}
+
+.text-button {
+  background: none;
+  border: none;
+  margin-left: 5px;
+  padding: 0;
+  font-size: inherit;
+  cursor: pointer;
+}
+
+.text-button:hover {
+  text-decoration: underline;
 }

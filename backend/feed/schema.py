@@ -12,3 +12,8 @@ class PostResponse(BaseModel):
 
     class Config:
         from_attributes = True
+
+
+class RegisterRequest(BaseModel):
+    username: str
+    password: str

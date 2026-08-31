@@ -1,29 +1,65 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function Upload({ goToFeed }) {
   const [file, setFile] = useState(null);
-  const [username, setUsername] = useState("");
   const [caption, setCaption] = useState("");
   const [loading, setLoading] = useState(false);
 
+  const [myUploads, setMyUploads] = useState([]);
+
+  // =========================
+  // GET MY UPLOADS
+  // =========================
+
+  const loadMyUploads = async () => {
+    const token = localStorage.getItem("access_token");
+
+    try {
+      const response = await fetch("http://127.0.0.1:8000/my-files", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        // No uploads yet
+        if (response.status === 404) {
+          setMyUploads([]);
+          return;
+        }
+
+        throw new Error(data.detail || "Failed to load uploads");
+      }
+
+      setMyUploads(data);
+    } catch (error) {
+      console.log("Error loading my uploads:", error);
+    }
+  };
+
+  // Load uploads when page opens
+  useEffect(() => {
+    loadMyUploads();
+  }, []);
+
+  // =========================
+  // UPLOAD
+  // =========================
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    if (loading) return;
 
     if (!file) {
       alert("Please select a file");
       return;
     }
 
-    if (!username) {
-      alert("Please enter your username");
-      return;
-    }
+    const token = localStorage.getItem("access_token");
 
     const formData = new FormData();
 
-    formData.append("username", username);
     formData.append("caption", caption);
     formData.append("file", file);
 
@@ -32,25 +68,29 @@ function Upload({ goToFeed }) {
     try {
       const response = await fetch("http://127.0.0.1:8000/upload", {
         method: "POST",
+
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+
         body: formData,
       });
 
-      console.log("Status:", response.status);
-
-      const text = await response.text();
-
-      console.log("Backend response:", text);
+      const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(text);
+        throw new Error(data.detail || "Upload failed");
       }
 
-      alert("Post submitted successfully! 🎉");
+      alert("Post uploaded successfully! 🎉");
 
-      goToFeed();
+      setCaption("");
+      setFile(null);
+
+      // Refresh my uploads
+      loadMyUploads();
     } catch (error) {
-      console.log("ERROR:", error);
-      alert("Something went wrong while posting.");
+      alert(error.message);
     }
 
     setLoading(false);
@@ -58,36 +98,81 @@ function Upload({ goToFeed }) {
 
   return (
     <div className="page">
-      <div className="post-card">
-        <h1>📸 SnapFeed</h1>
+      <div style={{ width: "100%", maxWidth: "700px" }}>
+        {/* =========================
+            UPLOAD BOX
+        ========================= */}
 
-        <p className="subtitle">Share your moment</p>
+        <div className="upload-card">
+          <h1>📸 Upload</h1>
 
-        <form onSubmit={handleSubmit}>
-          <input
-            type="text"
-            placeholder="Username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
+          <form onSubmit={handleSubmit}>
+            <input
+              type="text"
+              placeholder="Write a caption..."
+              value={caption}
+              onChange={(e) => setCaption(e.target.value)}
+            />
 
-          <input
-            type="text"
-            placeholder="Write a caption..."
-            value={caption}
-            onChange={(e) => setCaption(e.target.value)}
-          />
+            <input
+              type="file"
+              accept="image/*,video/*"
+              onChange={(e) => setFile(e.target.files[0])}
+              required
+            />
 
-          <input
-            type="file"
-            accept="image/*,video/*"
-            onChange={(e) => setFile(e.target.files[0])}
-          />
+            <button type="submit" disabled={loading}>
+              {loading ? "Uploading..." : "Upload 🚀"}
+            </button>
+          </form>
+        </div>
 
-          <button type="submit" disabled={loading}>
-            {loading ? "Posting..." : "Post 🚀"}
-          </button>
-        </form>
+        {/* =========================
+            MY UPLOADS
+        ========================= */}
+
+        <div className="feed">
+          <h1>My Uploads 📂</h1>
+
+          {myUploads.length === 0 ? (
+            <p className="empty-message">You haven't uploaded anything yet.</p>
+          ) : (
+            myUploads.map((post) => (
+              <div className="post-card" key={post.id}>
+                <div className="post-header">
+                  <strong>My Post</strong>
+
+                  <span>
+                    {new Date(post.created_at).toLocaleDateString("en-US", {
+                      month: "long",
+                      day: "numeric",
+                      year: "numeric",
+                    })}
+                  </span>
+                </div>
+
+                {/* IMAGE */}
+
+                {post.media_type === "image" && (
+                  <img
+                    src={`http://127.0.0.1:8000${post.url}`}
+                    alt={post.caption || "My upload"}
+                  />
+                )}
+
+                {/* VIDEO */}
+
+                {post.media_type === "video" && (
+                  <video src={`http://127.0.0.1:8000${post.url}`} controls />
+                )}
+
+                {/* CAPTION */}
+
+                {post.caption && <p className="caption">{post.caption}</p>}
+              </div>
+            ))
+          )}
+        </div>
       </div>
     </div>
   );
