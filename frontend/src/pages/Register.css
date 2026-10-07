@@ -1,0 +1,259 @@
+:root {
+  --color-paper: #F6F4F1;
+  --color-stone: #E4DED2;
+  --color-coral: #F95C4B;
+  --color-black: #000000;
+
+  --text-main: #000000;
+  --accent-active: var(--color-coral);
+}
+
+/* =========================
+   PAGE
+========================= */
+
+.register-page {
+  min-height: 100vh;
+  background: var(--color-black);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 32px;
+  box-sizing: border-box;
+}
+
+/* =========================
+   BANNER
+========================= */
+
+.register-banner {
+  width: 420px;
+  padding: 18px;
+
+  box-sizing: border-box;
+
+  display: flex;
+}
+
+.banner-content {
+  width: 100%;
+  min-height: 560px;
+
+  padding: 36px;
+
+  box-sizing: border-box;
+
+  border-radius: 18px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  color: var(--color-paper);
+
+  background:
+    radial-gradient(
+      circle at 80% 20%,
+      rgba(249, 92, 75, 0.45),
+      transparent 35%
+    ),
+    linear-gradient(
+      145deg,
+      #000000 35%,
+      #321311 70%,
+      var(--color-coral)
+    );
+}
+
+/* LOGO */
+
+.banner-logo {
+  font-size: 30px;
+  line-height: 1;
+  color: var(--accent-active);
+}
+
+/* BOTTOM CONTENT */
+
+.banner-bottom {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+/* TAG */
+
+.banner-tag {
+  padding: 7px 12px;
+  margin-bottom: 20px;
+
+  border: 1px solid rgba(246, 244, 241, 0.3);
+  border-radius: 50px;
+
+  font-size: 11px;
+  font-weight: 600;
+
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+/* HEADING */
+
+.banner-bottom h1 {
+  margin: 0;
+
+  color: var(--color-paper);
+
+  font-size: 40px;
+  line-height: 1.08;
+
+  font-weight: 700;
+  letter-spacing: -1.5px;
+}
+
+/* DESCRIPTION */
+
+.banner-bottom p {
+  max-width: 300px;
+
+  margin: 18px 0 0;
+
+  color: rgba(246, 244, 241, 0.7);
+
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* =========================
+   FORM
+========================= */
+
+form {
+  width: 420px;
+
+  padding: 40px;
+
+  box-sizing: border-box;
+
+  background: var(--color-paper);
+
+  border-radius: 18px;
+}
+
+/* INPUTS */
+
+form input,
+form select {
+  width: 100%;
+
+  box-sizing: border-box;
+
+  padding: 12px 13px;
+
+  margin-bottom: 14px;
+
+  background: #FFFFFF;
+
+  border: 1px solid var(--color-stone);
+  border-radius: 8px;
+
+  color: var(--text-main);
+
+  font-family: inherit;
+  font-size: 14px;
+
+  outline: none;
+}
+
+/* PLACEHOLDER */
+
+form input::placeholder {
+  color: #A29E98;
+}
+
+/* FOCUS */
+
+form input:focus,
+form select:focus {
+  border-color: var(--accent-active);
+
+  box-shadow:
+    0 0 0 3px rgba(249, 92, 75, 0.12);
+}
+
+/* SELECT */
+
+form select {
+  cursor: pointer;
+}
+
+/* BUTTON */
+
+form button {
+  width: 100%;
+
+  padding: 13px;
+
+  border: none;
+  border-radius: 8px;
+
+  background: var(--accent-active);
+
+  color: #FFFFFF;
+
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+form button:hover {
+  background: #E84F40;
+}
+
+/* ERROR / SUCCESS */
+
+form p {
+  margin: 10px 0 0;
+
+  font-size: 13px;
+  text-align: center;
+}
+
+form p:first-of-type {
+  color: #D9362B;
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 760px) {
+  .register-page {
+    padding: 16px;
+    flex-direction: column;
+  }
+
+  .register-banner {
+    width: 100%;
+    max-width: 420px;
+  }
+
+  .banner-content {
+    min-height: 280px;
+    padding: 26px;
+  }
+
+  .banner-bottom h1 {
+    font-size: 30px;
+  }
+
+  form {
+    width: 100%;
+    max-width: 420px;
+    padding: 32px 26px;
+  }
+}
