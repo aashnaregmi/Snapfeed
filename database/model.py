@@ -21,17 +21,19 @@ class Post(Base):
 
 
 class User(Base):
-    __tablename__ = "users_table"
+    __tablename__ = "users"
 
     id = Column(Integer, primary_key=True, index=True)
 
     name = Column(String, nullable=False)
 
-    username = Column(String, unique=True, nullable=False)
-
     dob = Column(Date, nullable=False)
 
-    email = Column(String, unique=True, nullable=False)
+    username = Column(String, unique=True, nullable=False, index=True)
+
+    gender = Column(String, nullable=False)
+
+    email = Column(String, unique=True, nullable=False, index=True)
 
     password = Column(String, nullable=False)
 

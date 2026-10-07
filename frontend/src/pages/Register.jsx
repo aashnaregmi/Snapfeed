@@ -9,135 +9,213 @@ function Register() {
     gender: "",
     email: "",
     password: "",
-    confirmPassword: "",
+    confirm_password: "",
   });
 
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+
   const handleChange = (e) => {
+    const { name, value } = e.target;
+
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value,
+      [name]: value,
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (formData.password !== formData.confirmPassword) {
-      alert("Passwords do not match");
+    setError("");
+    setSuccess("");
+
+    if (formData.password !== formData.confirm_password) {
+      setError("Passwords do not match");
       return;
     }
 
-    alert("Registration completed!");
+    try {
+      const response = await fetch("http://127.0.0.1:8000/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
 
-    console.log(formData);
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.detail || "Registration failed");
+      }
+
+      setSuccess(data.message);
+
+      console.log("Registration successful:", data);
+    } catch (error) {
+      console.error("Registration error:", error);
+      setError(error.message);
+    }
   };
 
   return (
     <div className="register-page">
-      <div className="register-container">
-        <h1>Create Account</h1>
-        <p className="subtitle">Create your SnapFeed account</p>
+      <div className="register-card">
+        {/* LEFT BANNER */}
+        <div className="register-banner">
+          <div className="banner-content">
+            <div className="banner-logo">✦</div>
 
-        <form onSubmit={handleSubmit}>
-          {/* Name */}
-          <div className="form-group">
-            <label>Full Name</label>
-            <input
-              type="text"
-              name="name"
-              placeholder="Enter your full name"
-              value={formData.name}
-              onChange={handleChange}
-              required
-            />
+            <div className="banner-bottom">
+              <span className="banner-tag">Capture & Share</span>
+
+              <h1>
+                Connect with creativity.
+                <br />
+                Share your perspective.
+              </h1>
+
+              <p>Turn everyday moments into stories worth sharing.</p>
+            </div>
+          </div>
+        </div>
+
+        {/* RIGHT FORM */}
+        <div className="register-form-section">
+          <div className="form-header">
+            <h2>Create your SnapFeed account</h2>
+
+            <p>Join SnapFeed and start sharing your perspective.</p>
           </div>
 
-          {/* Date of Birth */}
-          <div className="form-group">
-            <label>Date of Birth</label>
-            <input
-              type="date"
-              name="dob"
-              value={formData.dob}
-              onChange={handleChange}
-              required
-            />
-          </div>
+          <form onSubmit={handleSubmit}>
+            {/* NAME + USERNAME */}
+            <div className="input-grid">
+              <div className="input-group">
+                <label htmlFor="registerName">Full Name</label>
 
-          {/* Username */}
-          <div className="form-group">
-            <label>Username</label>
-            <input
-              type="text"
-              name="username"
-              placeholder="Choose a username"
-              value={formData.username}
-              onChange={handleChange}
-              required
-            />
-          </div>
+                <input
+                  id="registerName"
+                  type="text"
+                  name="name"
+                  placeholder="Enter your full name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
 
-          {/* Gender */}
-          <div className="form-group">
-            <label>Gender</label>
+              <div className="input-group">
+                <label htmlFor="registerUsername">Username</label>
 
-            <select
-              name="gender"
-              value={formData.gender}
-              onChange={handleChange}
-              required
-            >
-              <option value="">Select Gender</option>
-              <option value="female">Female</option>
-              <option value="male">Male</option>
-              <option value="other">Other</option>
-            </select>
-          </div>
+                <input
+                  id="registerUsername"
+                  type="text"
+                  name="username"
+                  placeholder="Choose a username"
+                  value={formData.username}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+            </div>
 
-          {/* Email */}
-          <div className="form-group">
-            <label>Email</label>
+            {/* DOB + GENDER */}
+            <div className="input-grid">
+              <div className="input-group">
+                <label htmlFor="registerDob">Date of Birth</label>
 
-            <input
-              type="email"
-              name="email"
-              placeholder="Enter your email"
-              value={formData.email}
-              onChange={handleChange}
-              required
-            />
-          </div>
+                <input
+                  id="registerDob"
+                  type="date"
+                  name="dob"
+                  value={formData.dob}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
 
-          {/* Password */}
-          <div className="form-group">
-            <label>Password</label>
+              <div className="input-group">
+                <label htmlFor="registerGender">Gender</label>
 
-            <input
-              type="password"
-              name="password"
-              placeholder="Create a password"
-              value={formData.password}
-              onChange={handleChange}
-              required
-            />
-          </div>
+                <select
+                  id="registerGender"
+                  name="gender"
+                  value={formData.gender}
+                  onChange={handleChange}
+                  required
+                >
+                  <option value="">Select Gender</option>
+                  <option value="female">Female</option>
+                  <option value="male">Male</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
+            </div>
 
-          {/* Confirm Password */}
-          <div className="form-group">
-            <label>Confirm Password</label>
+            {/* EMAIL */}
+            <div className="input-group full-width">
+              <label htmlFor="registerEmail">Email</label>
 
-            <input
-              type="password"
-              name="confirmPassword"
-              placeholder="Confirm your password"
-              value={formData.confirmPassword}
-              onChange={handleChange}
-              required
-            />
-          </div>
+              <input
+                id="registerEmail"
+                type="email"
+                name="email"
+                placeholder="Enter your email"
+                value={formData.email}
+                onChange={handleChange}
+                required
+              />
+            </div>
 
-          <button type="submit">Register</button>
-        </form>
+            {/* PASSWORD + CONFIRM PASSWORD */}
+            <div className="input-grid">
+              <div className="input-group">
+                <label htmlFor="registerPassword">Password</label>
+
+                <input
+                  id="registerPassword"
+                  type="password"
+                  name="password"
+                  placeholder="Create a password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+
+              <div className="input-group">
+                <label htmlFor="confirmPassword">Confirm Password</label>
+
+                <input
+                  id="confirmPassword"
+                  type="password"
+                  name="confirm_password"
+                  placeholder="Confirm your password"
+                  value={formData.confirm_password}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+            </div>
+
+            <button type="submit" className="register-button">
+              Create Account
+            </button>
+
+            {error && <p className="form-error">{error}</p>}
+
+            {success && <p className="form-success">{success}</p>}
+          </form>
+
+          <p className="login-footer">
+            Already have an account?{" "}
+            <button type="button" className="text-button">
+              Log in
+            </button>
+          </p>
+        </div>
       </div>
     </div>
   );
