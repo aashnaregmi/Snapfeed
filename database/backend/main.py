@@ -3,7 +3,7 @@ from pathlib import Path
 import shutil
 from sqlalchemy.orm import Session
 
-from backend.feed.schema import PostResponse, RegisterRequest
+from backend.feed.schema import PostResponse, RegisterRequest, ForgotPasswordRequest
 from database.db import Base, engine, SessionLocal
 from database.model import Post, User
 from fastapi.middleware.cors import CORSMiddleware
@@ -81,14 +81,35 @@ def get_db():
 
 @app.post("/register")
 def register(data: RegisterRequest, db: Session = Depends(get_db)):
-    existing_user = db.query(User).filter(User.username == data.username).first()
+    existing_user = (
+        db.query(User)
+        .filter((User.username == data.username) | (User.email == data.email))
+        .first()
+    )
 
     if existing_user:
-        raise HTTPException(status_code=400, detail="Username already registered")
+
+        if existing_user.email == data.email:
+            raise HTTPException(
+                status_code=400, detail="Email already registered. Try logging in."
+            )
+        if existing_user.username == data.username:
+            raise HTTPException(
+                status_code=400, detail="Username already used. Try a new username."
+            )
+
+    if data.password != data.confirm_password:
+        raise HTTPException(status_code=400, detail="Passwords do not match")
 
     hashed_password = password_hash.hash(data.password)
 
-    new_user = User(username=data.username, password=hashed_password)
+    new_user = User(
+        name=data.name,
+        username=data.username,
+        dob=data.dob,
+        email=data.email,
+        password=hashed_password,
+    )
 
     db.add(new_user)
     db.commit()
@@ -100,14 +121,15 @@ def register(data: RegisterRequest, db: Session = Depends(get_db)):
 # =========================
 # Jwt generate
 # =========================
+
+
 def create_token(data: dict):
-    to_encode = data.copy()
+    payload = data.copy()
 
-    expire = datetime.now(timezone.utc) + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+    expire = datetime.now(timezone.utc) + timedelta(minutes=30)
+    payload["exp"] = expire
 
-    to_encode.update({"exp": expire})
-
-    token = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
+    token = jwt.encode(payload, SECRET_KEY, algorithm=ALGORITHM)
 
     return token
 
@@ -122,7 +144,7 @@ def login(
     user = db.query(User).filter(User.username == form_data.username).first()
 
     if not user:
-        raise HTTPException(status_code=401, detail="Invalid username or password")
+        raise HTTPException(status_code=401, detail="Not registered")
 
     password_correct = password_hash.verify(form_data.password, user.password)
 
@@ -204,7 +226,7 @@ async def upload_post(
     return new_post
 
 
-@app.get("/my-files")
+@app.get("/myuploads")
 async def get_my_files(
     username: str = Depends(get_current_user), db: Session = Depends(get_db)
 ):
@@ -235,16 +257,35 @@ async def get_my_files(
     return files
 
 
-@app.delete("/posts/{id}")
-async def delete_post(
-    id: int, username: str = Depends(get_current_user), db: Session = Depends(get_db)
-):
-    post = db.query(Post).filter(Post.id == id, Post.username == username).first()
+# @app.delete("/posts/{id}")
+# async def delete_post(
+#     id: int, username: str = Depends(get_current_user), db: Session = Depends(get_db)
+# ):
+#     post = db.query(Post).filter(Post.id == id, Post.username == username).first()
 
-    if not post:
-        raise HTTPException(status_code=404, detail="Post not found")
+#     if not post:
+#         raise HTTPException(status_code=404, detail="Post not found")
 
-    db.delete(post)
+#     db.delete(post)
+#     db.commit()
+
+
+#     return {"message": "Post deleted successfully"}
+@app.delete("/delete-all")
+def delete_all_data(db: Session = Depends(get_db)):
+    db.query(Post).delete()
+    db.query(User).delete()
     db.commit()
 
-    return {"message": "Post deleted successfully"}
+    return {"message": "All data deleted successfully"}
+
+
+# fogot pw
+@app.post("/forgot-password")
+def forgot_password(data: ForgotPasswordRequest, db: Session = Depends(get_db)):
+    user = db.query(User).filter(User.email == data.email).first()
+
+    if not user:
+        raise HTTPException(status_code=404, detail="Email not registered")
+
+    return {"message": "Password reset request received"}

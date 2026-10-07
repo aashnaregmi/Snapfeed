@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, DateTime
+from sqlalchemy import Column, Integer, String, DateTime, Date
 from datetime import datetime
 
 from database.db import Base
@@ -21,9 +21,18 @@ class Post(Base):
 
 
 class User(Base):
-    __tablename__ = "users"
+    __tablename__ = "users_table"
 
     id = Column(Integer, primary_key=True, index=True)
+
+    name = Column(String, nullable=False)
+
     username = Column(String, unique=True, nullable=False)
+
+    dob = Column(Date, nullable=False)
+
+    email = Column(String, unique=True, nullable=False)
+
     password = Column(String, nullable=False)
+
     created_at = Column(DateTime, default=datetime.utcnow, nullable=False)

@@ -3,7 +3,7 @@ import "./App.css";
 
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-import Feed from "./pages/Feed";
+import Feed from "../../../practise/Feed";
 import Upload from "./pages/Upload";
 
 function App() {
