@@ -4,9 +4,13 @@
   --color-coral: #F95C4B;
   --color-black: #000000;
 
-  --text-main: #000000;
+  --bg-app: var(--color-black);
+  --bg-card: var(--color-paper);
+  --border-card: var(--color-stone);
+  --text-main: var(--color-black);
   --accent-active: var(--color-coral);
 }
+
 
 /* =========================
    PAGE
@@ -14,22 +18,47 @@
 
 .register-page {
   min-height: 100vh;
-  background: var(--color-black);
+
+  background: var(--bg-app);
 
   display: flex;
   align-items: center;
   justify-content: center;
 
   padding: 32px;
+
   box-sizing: border-box;
 }
 
+
 /* =========================
-   BANNER
+   MAIN CARD
+========================= */
+
+.register-card {
+  width: 100%;
+  max-width: 920px;
+
+  display: flex;
+
+  background: var(--bg-card);
+
+  border-radius: 24px;
+
+  overflow: hidden;
+
+  box-shadow:
+    0 25px 60px rgba(0, 0, 0, 0.35);
+}
+
+
+/* =========================
+   LEFT BANNER
 ========================= */
 
 .register-banner {
-  width: 420px;
+  width: 45%;
+
   padding: 18px;
 
   box-sizing: border-box;
@@ -37,8 +66,10 @@
   display: flex;
 }
 
+
 .banner-content {
   width: 100%;
+
   min-height: 560px;
 
   padding: 36px;
@@ -67,39 +98,59 @@
     );
 }
 
-/* LOGO */
+
+/* =========================
+   LOGO
+========================= */
 
 .banner-logo {
   font-size: 30px;
+
   line-height: 1;
+
   color: var(--accent-active);
 }
 
-/* BOTTOM CONTENT */
+
+/* =========================
+   BOTTOM CONTENT
+========================= */
 
 .banner-bottom {
   display: flex;
+
   flex-direction: column;
+
   align-items: flex-start;
 }
 
-/* TAG */
+
+/* =========================
+   BANNER TAG
+========================= */
 
 .banner-tag {
   padding: 7px 12px;
+
   margin-bottom: 20px;
 
   border: 1px solid rgba(246, 244, 241, 0.3);
+
   border-radius: 50px;
 
   font-size: 11px;
+
   font-weight: 600;
 
   letter-spacing: 1px;
+
   text-transform: uppercase;
 }
 
-/* HEADING */
+
+/* =========================
+   BANNER TITLE
+========================= */
 
 .banner-bottom h1 {
   margin: 0;
@@ -107,13 +158,18 @@
   color: var(--color-paper);
 
   font-size: 40px;
+
   line-height: 1.08;
 
   font-weight: 700;
+
   letter-spacing: -1.5px;
 }
 
-/* DESCRIPTION */
+
+/* =========================
+   BANNER DESCRIPTION
+========================= */
 
 .banner-bottom p {
   max-width: 300px;
@@ -123,80 +179,211 @@
   color: rgba(246, 244, 241, 0.7);
 
   font-size: 14px;
+
   line-height: 1.6;
 }
 
+
 /* =========================
-   FORM
+   RIGHT FORM
 ========================= */
 
-form {
-  width: 420px;
+.register-form-section {
+  width: 55%;
 
   padding: 40px;
 
   box-sizing: border-box;
 
-  background: var(--color-paper);
+  display: flex;
 
-  border-radius: 18px;
+  flex-direction: column;
+
+  justify-content: center;
 }
 
-/* INPUTS */
 
-form input,
-form select {
+/* =========================
+   FORM HEADER
+========================= */
+
+.form-header h2 {
+  margin: 0;
+
+  color: var(--text-main);
+
+  font-size: 28px;
+
+  line-height: 1.2;
+
+  font-weight: 700;
+
+  letter-spacing: -0.5px;
+}
+
+
+.form-header p {
+  margin: 9px 0 28px;
+
+  color: #6B6863;
+
+  font-size: 14px;
+
+  line-height: 1.5;
+}
+
+
+/* =========================
+   FORM
+========================= */
+
+.register-form-section form {
+  width: 100%;
+}
+
+
+/* =========================
+   INPUT GRID
+========================= */
+
+.input-grid {
+  display: grid;
+
+  grid-template-columns: 1fr 1fr;
+
+  gap: 16px;
+
+  margin-bottom: 16px;
+}
+
+
+/* =========================
+   INPUT GROUP
+========================= */
+
+.input-group {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 7px;
+}
+
+
+.input-group label {
+  color: var(--text-main);
+
+  font-size: 13px;
+
+  font-weight: 600;
+}
+
+
+/* =========================
+   INPUT
+========================= */
+
+.input-group input,
+.input-group select {
   width: 100%;
 
   box-sizing: border-box;
 
   padding: 12px 13px;
 
-  margin-bottom: 14px;
-
   background: #FFFFFF;
 
-  border: 1px solid var(--color-stone);
+  border: 1px solid var(--border-card);
+
   border-radius: 8px;
 
   color: var(--text-main);
 
   font-family: inherit;
+
   font-size: 14px;
 
   outline: none;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
-/* PLACEHOLDER */
 
-form input::placeholder {
+/* =========================
+   PLACEHOLDER
+========================= */
+
+.input-group input::placeholder {
   color: #A29E98;
 }
 
-/* FOCUS */
 
-form input:focus,
-form select:focus {
+/* =========================
+   INPUT FOCUS
+========================= */
+
+.input-group input:focus,
+.input-group select:focus {
   border-color: var(--accent-active);
 
   box-shadow:
     0 0 0 3px rgba(249, 92, 75, 0.12);
 }
 
-/* SELECT */
 
-form select {
+/* =========================
+   DATE INPUT
+========================= */
+
+.input-group input[type="date"] {
+  color: var(--text-main);
+
   cursor: pointer;
 }
 
-/* BUTTON */
 
-form button {
+/* =========================
+   SELECT
+========================= */
+
+.input-group select {
+  cursor: pointer;
+}
+
+
+/* =========================
+   PASSWORD INPUT
+========================= */
+
+.input-group input[type="password"] {
+  letter-spacing: 0.5px;
+}
+
+
+/* =========================
+   FULL WIDTH INPUT
+========================= */
+
+.full-width {
+  margin-bottom: 16px;
+}
+
+
+/* =========================
+   REGISTER BUTTON
+========================= */
+
+.register-button {
   width: 100%;
+
+  margin-top: 2px;
 
   padding: 13px;
 
   border: none;
+
   border-radius: 8px;
 
   background: var(--accent-active);
@@ -204,56 +391,188 @@ form button {
   color: #FFFFFF;
 
   font-family: inherit;
+
   font-size: 14px;
+
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease;
+}
+
+
+.register-button:hover {
+  background: #E84F40;
+}
+
+
+.register-button:active {
+  transform: translateY(1px);
+}
+
+
+.register-button:disabled {
+  opacity: 0.7;
+
+  cursor: not-allowed;
+}
+
+
+/* =========================
+   ERROR MESSAGE
+========================= */
+
+.form-error {
+  margin: 12px 0 0;
+
+  color: #D9362B;
+
+  font-size: 13px;
+
+  text-align: center;
+}
+
+
+/* =========================
+   SUCCESS MESSAGE
+========================= */
+
+.form-success {
+  margin: 12px 0 0;
+
+  color: #2E7D32;
+
+  font-size: 13px;
+
+  text-align: center;
+}
+
+
+/* =========================
+   LOGIN FOOTER
+========================= */
+
+.login-footer {
+  margin: 22px 0 0;
+
+  text-align: center;
+
+  color: #6B6863;
+
+  font-size: 13px;
+}
+
+
+/* =========================
+   FOOTER BUTTON
+========================= */
+
+.login-footer .text-button {
+  padding: 0;
+
+  border: none;
+
+  background: transparent;
+
+  color: var(--accent-active);
+
+  font-family: inherit;
+
+  font-size: inherit;
+
   font-weight: 700;
 
   cursor: pointer;
 }
 
-form button:hover {
-  background: #E84F40;
+
+.login-footer .text-button:hover {
+  text-decoration: underline;
 }
 
-/* ERROR / SUCCESS */
-
-form p {
-  margin: 10px 0 0;
-
-  font-size: 13px;
-  text-align: center;
-}
-
-form p:first-of-type {
-  color: #D9362B;
-}
 
 /* =========================
-   MOBILE
+   TABLET
 ========================= */
 
 @media (max-width: 760px) {
+
   .register-page {
     padding: 16px;
+  }
+
+
+  .register-card {
     flex-direction: column;
   }
 
+
   .register-banner {
     width: 100%;
-    max-width: 420px;
+
+    padding: 14px;
   }
+
 
   .banner-content {
     min-height: 280px;
+
     padding: 26px;
   }
+
 
   .banner-bottom h1 {
     font-size: 30px;
   }
 
-  form {
+
+  .register-form-section {
     width: 100%;
-    max-width: 420px;
+
     padding: 32px 26px;
+  }
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 520px) {
+
+  .register-page {
+    padding: 10px;
+  }
+
+
+  .banner-content {
+    min-height: 240px;
+
+    padding: 22px;
+  }
+
+
+  .banner-bottom h1 {
+    font-size: 27px;
+  }
+
+
+  .register-form-section {
+    padding: 28px 20px;
+  }
+
+
+  .form-header h2 {
+    font-size: 24px;
+  }
+
+
+  .input-grid {
+    grid-template-columns: 1fr;
+
+    gap: 16px;
   }
 }
