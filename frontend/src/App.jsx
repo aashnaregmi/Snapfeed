@@ -1,4 +1,4 @@
-import Entry from "./pages/Entry";
+import Entry from "./pages/RouterSetup/Entry";
 
 function App() {
   return <Entry />;
