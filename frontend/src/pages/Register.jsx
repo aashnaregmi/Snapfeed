@@ -1,7 +1,10 @@
 import { useState } from "react";
 import "./Register.css";
+import { useNavigate } from "react-router-dom";
 
 function Register() {
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     name: "",
     dob: "",
@@ -53,6 +56,9 @@ function Register() {
       setSuccess(data.message);
 
       console.log("Registration successful:", data);
+      setTimeout(() => {
+        navigate("/login");
+      }, 1000);
     } catch (error) {
       console.error("Registration error:", error);
       setError(error.message);
@@ -218,7 +224,11 @@ function Register() {
           {/* LOGIN FOOTER */}
           <p className="login-footer">
             Already have an account?{" "}
-            <button type="button" className="text-button">
+            <button
+              type="button"
+              className="text-button"
+              onClick={() => navigate("/login")}
+            >
               Log in
             </button>
           </p>

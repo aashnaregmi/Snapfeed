@@ -1,7 +1,7 @@
-import Register from "./pages/Register";
+import Entry from "./pages/Entry";
 
 function App() {
-  return <Register />;
+  return <Entry />;
 }
 
 export default App;
