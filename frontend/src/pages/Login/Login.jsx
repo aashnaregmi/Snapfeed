@@ -127,7 +127,6 @@ function Login() {
                   type="button"
                   className="login-password-toggle"
                   onClick={() => setShowPassword(!showPassword)}
-                  aria-label="Toggle password visibility"
                 >
                   {showPassword ? "◉" : "◌"}
                 </button>
