@@ -19,6 +19,7 @@ function Register() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -33,6 +34,7 @@ function Register() {
     e.preventDefault();
 
     setError("");
+    setSuccess("");
 
     if (formData.password !== formData.confirm_password) {
       setError("Passwords do not match");
@@ -236,6 +238,7 @@ function Register() {
             {error && <p className="form-error">{error}</p>}
 
             {/* SUCCESS */}
+            {success && <p className="form-success">{success}</p>}
           </form>
 
           {/* LOGIN FOOTER */}

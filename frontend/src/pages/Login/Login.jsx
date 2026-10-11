@@ -13,6 +13,7 @@ function Login() {
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -23,6 +24,7 @@ function Login() {
     });
 
     setError("");
+    setSuccess("");
   };
 
   const handleLogin = async (e) => {
@@ -30,6 +32,7 @@ function Login() {
 
     setLoading(true);
     setError("");
+    setSuccess("");
 
     const formData = new URLSearchParams();
     formData.append("username", loginData.username);
@@ -51,8 +54,12 @@ function Login() {
         return;
       }
 
-      // Navigate to the Home route
-      navigate("/");
+      localStorage.setItem("access_token", data.access_token);
+      setSuccess("Login successful!");
+
+      setTimeout(() => {
+        navigate("/");
+      }, 1000);
     } catch {
       setError("Unable to connect to the server. Please try again.");
     } finally {
@@ -148,7 +155,8 @@ function Login() {
           </form>
 
           {/* ERROR AND SUCCESS MESSAGES */}
-          {error && <p style={{ color: "red" }}>{error}</p>}
+          {error && <p className="form-error">{error}</p>}
+          {success && <p className="form-success">{success}</p>}
 
           {/* REGISTER */}
           <p className="register-footer">
