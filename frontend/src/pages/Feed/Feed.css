@@ -1,0 +1,240 @@
+/* =========================
+   COLORS
+========================= */
+
+:root {
+  --color-paper: #F6F4F1;
+  --color-stone: #E4DED2;
+  --color-coral: #F95C4B;
+  --color-black: #000000;
+}
+
+/* =========================
+   MAIN PAGE
+========================= */
+
+.feed-page {
+  width: 100%;
+  min-height: 100vh;
+  margin: 0;
+  padding-bottom: 24px;
+  background: var(--color-paper);
+  color: var(--color-black);
+  font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.feed-container {
+  width: min(1200px, 90%);
+  margin: 0 auto;
+}
+
+/* =========================
+   NAVBAR
+========================= */
+
+.feed-navbar {
+  height: 76px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0;
+  background: var(--color-paper);
+}
+
+.feed-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--color-black);
+  font-size: 25px;
+  font-weight: 800;
+  letter-spacing: -1.4px;
+  text-decoration: none;
+}
+
+.logo-icon {
+  color: var(--color-coral);
+  font-size: 27px;
+}
+
+.profile-avatar {
+  width: 39px;
+  height: 39px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--color-stone);
+  border-radius: 50%;
+  background: white;
+  color: var(--color-black);
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: background 180ms ease, color 180ms ease;
+}
+
+.profile-avatar:hover {
+  background: var(--color-coral);
+  color: white;
+}
+
+/* =========================
+   HERO BANNER
+========================= */
+
+.feed-hero {
+  min-height: 265px;
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 30px;
+  padding: 42px 48px;
+  overflow: hidden;
+  border-radius: 24px;
+  background: var(--color-black);
+  color: var(--color-paper);
+}
+
+.feed-hero::after {
+  content: "";
+  width: 300px;
+  height: 300px;
+  position: absolute;
+  right: -65px;
+  top: -110px;
+  border: 1px solid rgba(249, 92, 75, 0.5);
+  border-radius: 50%;
+  box-shadow:
+    0 0 0 30px rgba(249, 92, 75, 0.06),
+    0 0 0 65px rgba(249, 92, 75, 0.04);
+  pointer-events: none;
+}
+
+.feed-hero-content {
+  position: relative;
+  z-index: 1;
+  max-width: 650px;
+}
+
+.feed-eyebrow {
+  margin: 0 0 20px;
+  color: var(--color-coral);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+
+.feed-hero h1 {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: clamp(34px, 4.5vw, 55px);
+  line-height: 1.05;
+  letter-spacing: -2px;
+  font-weight: 800;
+}
+
+.feed-hero h1 span {
+  color: var(--color-coral);
+}
+
+.feed-hero-description {
+  max-width: 410px;
+  margin: 18px 0 0;
+  color: #C8C3BD;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+/* =========================
+   HERO NOTE
+========================= */
+
+.feed-hero-note {
+  position: relative;
+  z-index: 1;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  padding: 18px 20px;
+  border: 1px solid #393532;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.04);
+  color: #E7E1DA;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.hero-sparkle {
+  color: var(--color-coral);
+  font-size: 28px;
+}
+
+.feed-hero-note p {
+  margin: 0;
+  color: #E7E1DA;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+/* =========================
+   TABLET
+========================= */
+
+@media (max-width: 900px) {
+  .feed-container {
+    width: 92%;
+  }
+
+  .feed-hero {
+    padding: 35px;
+  }
+
+  .feed-hero-note {
+    display: none;
+  }
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 560px) {
+  .feed-container {
+    width: 92%;
+  }
+
+  .feed-navbar {
+    height: 66px;
+  }
+
+  .feed-logo {
+    font-size: 21px;
+  }
+
+  .profile-avatar {
+    width: 35px;
+    height: 35px;
+  }
+
+  .feed-hero {
+    min-height: 230px;
+    align-items: flex-start;
+    padding: 28px 23px;
+    border-radius: 19px;
+  }
+
+  .feed-hero h1 {
+    font-size: 37px;
+    letter-spacing: -1.8px;
+  }
+
+  .feed-eyebrow {
+    font-size: 9px;
+    letter-spacing: 1.5px;
+  }
+
+  .feed-hero-description {
+    font-size: 13px;
+  }
+}
