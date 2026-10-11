@@ -15,8 +15,10 @@ function Register() {
     confirm_password: "",
   });
 
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
   const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -31,7 +33,6 @@ function Register() {
     e.preventDefault();
 
     setError("");
-    setSuccess("");
 
     if (formData.password !== formData.confirm_password) {
       setError("Passwords do not match");
@@ -53,9 +54,10 @@ function Register() {
         throw new Error(data.detail || "Registration failed");
       }
 
-      setSuccess(data.message);
+      setSuccess(data.message || "Registration successful!");
 
       console.log("Registration successful:", data);
+
       setTimeout(() => {
         navigate("/login");
       }, 1000);
@@ -68,7 +70,7 @@ function Register() {
   return (
     <div className="register-page">
       <div className="register-card">
-        {/* ================= LEFT BANNER ================= */}
+        {/* LEFT BANNER */}
         <div className="register-banner">
           <div className="banner-content">
             <div className="banner-logo">✦</div>
@@ -87,11 +89,10 @@ function Register() {
           </div>
         </div>
 
-        {/* ================= RIGHT FORM ================= */}
+        {/* RIGHT FORM */}
         <div className="register-form-section">
           <div className="form-header">
             <h2>Create your SnapFeed account</h2>
-
             <p>Join SnapFeed and start sharing your perspective.</p>
           </div>
 
@@ -153,11 +154,8 @@ function Register() {
                   required
                 >
                   <option value="">Select Gender</option>
-
                   <option value="female">Female</option>
-
                   <option value="male">Male</option>
-
                   <option value="other">Other</option>
                 </select>
               </div>
@@ -183,29 +181,49 @@ function Register() {
               <div className="input-group">
                 <label htmlFor="registerPassword">Password</label>
 
-                <input
-                  id="registerPassword"
-                  type="password"
-                  name="password"
-                  placeholder="Create a password"
-                  value={formData.password}
-                  onChange={handleChange}
-                  required
-                />
+                <div className="register-password-wrapper">
+                  <input
+                    id="registerPassword"
+                    type={showPassword ? "text" : "password"}
+                    name="password"
+                    placeholder="Create a password"
+                    value={formData.password}
+                    onChange={handleChange}
+                    required
+                  />
+
+                  <button
+                    type="button"
+                    className="register-password-toggle"
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    {showPassword ? "◉" : "◌"}
+                  </button>
+                </div>
               </div>
 
               <div className="input-group">
                 <label htmlFor="confirmPassword">Confirm Password</label>
 
-                <input
-                  id="confirmPassword"
-                  type="password"
-                  name="confirm_password"
-                  placeholder="Confirm your password"
-                  value={formData.confirm_password}
-                  onChange={handleChange}
-                  required
-                />
+                <div className="register-password-wrapper">
+                  <input
+                    id="confirmPassword"
+                    type={showConfirmPassword ? "text" : "password"}
+                    name="confirm_password"
+                    placeholder="Confirm your password"
+                    value={formData.confirm_password}
+                    onChange={handleChange}
+                    required
+                  />
+
+                  <button
+                    type="button"
+                    className="register-password-toggle"
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                  >
+                    {showConfirmPassword ? "◉" : "◌"}
+                  </button>
+                </div>
               </div>
             </div>
 
@@ -218,7 +236,6 @@ function Register() {
             {error && <p className="form-error">{error}</p>}
 
             {/* SUCCESS */}
-            {success && <p className="form-success">{success}</p>}
           </form>
 
           {/* LOGIN FOOTER */}

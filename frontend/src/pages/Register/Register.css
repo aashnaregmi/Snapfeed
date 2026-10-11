@@ -1,3 +1,4 @@
+
 :root {
   --color-paper: #F6F4F1;
   --color-stone: #E4DED2;
@@ -11,77 +12,45 @@
   --accent-active: var(--color-coral);
 }
 
-
-/* =========================
-   PAGE
-========================= */
-
+/* PAGE */
 .register-page {
   min-height: 100vh;
-
   background: var(--bg-app);
-
   display: flex;
   align-items: center;
   justify-content: center;
-
   padding: 32px;
-
   box-sizing: border-box;
 }
 
-
-/* =========================
-   MAIN CARD
-========================= */
-
+/* MAIN CARD */
 .register-card {
   width: 100%;
   max-width: 920px;
-
   display: flex;
-
   background: var(--bg-card);
-
   border-radius: 24px;
-
   overflow: hidden;
-
-  box-shadow:
-    0 25px 60px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.35);
 }
 
-
-/* =========================
-   LEFT BANNER
-========================= */
-
+/* LEFT BANNER */
 .register-banner {
   width: 45%;
-
   padding: 18px;
-
   box-sizing: border-box;
-
   display: flex;
 }
-
 
 .banner-content {
   width: 100%;
-
   min-height: 560px;
-
   padding: 36px;
-
   box-sizing: border-box;
-
   border-radius: 18px;
-
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-
   color: var(--color-paper);
 
   background:
@@ -98,481 +67,311 @@
     );
 }
 
-
-/* =========================
-   LOGO
-========================= */
-
+/* LOGO */
 .banner-logo {
   font-size: 30px;
-
   line-height: 1;
-
   color: var(--accent-active);
 }
 
-
-/* =========================
-   BOTTOM CONTENT
-========================= */
-
+/* BANNER CONTENT */
 .banner-bottom {
   display: flex;
-
   flex-direction: column;
-
   align-items: flex-start;
 }
 
-
-/* =========================
-   BANNER TAG
-========================= */
-
+/* BANNER TAG */
 .banner-tag {
   padding: 7px 12px;
-
   margin-bottom: 20px;
-
   border: 1px solid rgba(246, 244, 241, 0.3);
-
   border-radius: 50px;
-
   font-size: 11px;
-
   font-weight: 600;
-
   letter-spacing: 1px;
-
   text-transform: uppercase;
 }
 
-
-/* =========================
-   BANNER TITLE
-========================= */
-
+/* BANNER TITLE */
 .banner-bottom h1 {
   margin: 0;
-
   color: var(--color-paper);
-
   font-size: 40px;
-
   line-height: 1.08;
-
   font-weight: 700;
-
   letter-spacing: -1.5px;
 }
 
-
-/* =========================
-   BANNER DESCRIPTION
-========================= */
-
+/* BANNER DESCRIPTION */
 .banner-bottom p {
   max-width: 300px;
-
   margin: 18px 0 0;
-
   color: rgba(246, 244, 241, 0.7);
-
   font-size: 14px;
-
   line-height: 1.6;
 }
 
-
-/* =========================
-   RIGHT FORM
-========================= */
-
+/* RIGHT FORM */
 .register-form-section {
   width: 55%;
-
   padding: 40px;
-
   box-sizing: border-box;
-
   display: flex;
-
   flex-direction: column;
-
   justify-content: center;
 }
 
-
-/* =========================
-   FORM HEADER
-========================= */
-
+/* FORM HEADER */
 .form-header h2 {
   margin: 0;
-
   color: var(--text-main);
-
   font-size: 28px;
-
   line-height: 1.2;
-
   font-weight: 700;
-
   letter-spacing: -0.5px;
 }
 
-
 .form-header p {
   margin: 9px 0 28px;
-
   color: #6B6863;
-
   font-size: 14px;
-
   line-height: 1.5;
 }
 
-
-/* =========================
-   FORM
-========================= */
-
+/* FORM */
 .register-form-section form {
   width: 100%;
 }
 
-
-/* =========================
-   INPUT GRID
-========================= */
-
+/* INPUT GRID */
 .input-grid {
   display: grid;
-
   grid-template-columns: 1fr 1fr;
-
   gap: 16px;
-
   margin-bottom: 16px;
 }
 
-
-/* =========================
-   INPUT GROUP
-========================= */
-
+/* INPUT GROUP */
 .input-group {
   display: flex;
-
   flex-direction: column;
-
   gap: 7px;
+  min-width: 0;
 }
-
 
 .input-group label {
   color: var(--text-main);
-
   font-size: 13px;
-
   font-weight: 600;
 }
 
-
-/* =========================
-   INPUT
-========================= */
-
+/* INPUTS AND SELECTS */
 .input-group input,
 .input-group select {
   width: 100%;
-
   box-sizing: border-box;
-
   padding: 12px 13px;
-
   background: #FFFFFF;
-
   border: 1px solid var(--border-card);
-
   border-radius: 8px;
-
   color: var(--text-main);
-
   font-family: inherit;
-
   font-size: 14px;
-
   outline: none;
-
-  transition:
-    border-color 0.2s ease,
-    box-shadow 0.2s ease;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
-
-
-/* =========================
-   PLACEHOLDER
-========================= */
 
 .input-group input::placeholder {
   color: #A29E98;
 }
 
-
-/* =========================
-   INPUT FOCUS
-========================= */
-
+/* INPUT FOCUS */
 .input-group input:focus,
 .input-group select:focus {
   border-color: var(--accent-active);
-
-  box-shadow:
-    0 0 0 3px rgba(249, 92, 75, 0.12);
+  box-shadow: 0 0 0 3px rgba(249, 92, 75, 0.12);
 }
 
-
-/* =========================
-   DATE INPUT
-========================= */
-
+/* DATE INPUT */
 .input-group input[type="date"] {
   color: var(--text-main);
-
   cursor: pointer;
 }
 
-
-/* =========================
-   SELECT
-========================= */
-
+/* SELECT */
 .input-group select {
   cursor: pointer;
 }
 
+/* PASSWORD WRAPPER */
+.register-password-wrapper {
+  position: relative;
+  width: 100%;
+}
 
-/* =========================
-   PASSWORD INPUT
-========================= */
+.register-password-wrapper input {
+  padding-right: 48px;
+}
 
-.input-group input[type="password"] {
+/* PASSWORD INPUT */
+.register-password-wrapper input[type="password"] {
   letter-spacing: 0.5px;
 }
 
+/* PASSWORD TOGGLE */
+.register-password-toggle {
+  position: absolute;
+  top: 0;
+  right: 8px;
+  width: 32px;
+  height: 100%;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: transparent;
+  color: #6B6863;
+  font-family: inherit;
+  font-size: 17px;
+  line-height: 1;
+  cursor: pointer;
+}
 
-/* =========================
-   FULL WIDTH INPUT
-========================= */
+.register-password-toggle:hover {
+  color: var(--text-main);
+}
 
+/* FULL-WIDTH INPUT */
 .full-width {
   margin-bottom: 16px;
 }
 
-
-/* =========================
-   REGISTER BUTTON
-========================= */
-
+/* REGISTER BUTTON */
 .register-button {
   width: 100%;
-
   margin-top: 2px;
-
   padding: 13px;
-
   border: none;
-
   border-radius: 8px;
-
   background: var(--accent-active);
-
   color: #FFFFFF;
-
   font-family: inherit;
-
   font-size: 14px;
-
   font-weight: 700;
-
   cursor: pointer;
-
-  transition:
-    background 0.2s ease,
-    transform 0.2s ease;
+  transition: background 0.2s ease, transform 0.2s ease;
 }
-
 
 .register-button:hover {
   background: #E84F40;
 }
 
-
 .register-button:active {
   transform: translateY(1px);
 }
 
-
 .register-button:disabled {
   opacity: 0.7;
-
   cursor: not-allowed;
 }
 
-
-/* =========================
-   ERROR MESSAGE
-========================= */
-
+/* ERROR MESSAGE */
 .form-error {
   margin: 12px 0 0;
-
   color: #D9362B;
-
   font-size: 13px;
-
   text-align: center;
 }
 
-
-/* =========================
-   SUCCESS MESSAGE
-========================= */
-
+/* SUCCESS MESSAGE */
 .form-success {
   margin: 12px 0 0;
-
   color: #2E7D32;
-
   font-size: 13px;
-
   text-align: center;
 }
 
-
-/* =========================
-   LOGIN FOOTER
-========================= */
-
+/* LOGIN FOOTER */
 .login-footer {
   margin: 22px 0 0;
-
   text-align: center;
-
   color: #6B6863;
-
   font-size: 13px;
 }
 
-
-/* =========================
-   FOOTER BUTTON
-========================= */
-
+/* FOOTER BUTTON */
 .login-footer .text-button {
   padding: 0;
-
   border: none;
-
   background: transparent;
-
   color: var(--accent-active);
-
   font-family: inherit;
-
   font-size: inherit;
-
   font-weight: 700;
-
   cursor: pointer;
 }
-
 
 .login-footer .text-button:hover {
   text-decoration: underline;
 }
 
-
-/* =========================
-   TABLET
-========================= */
-
+/* TABLET */
 @media (max-width: 760px) {
-
   .register-page {
     padding: 16px;
   }
-
 
   .register-card {
     flex-direction: column;
   }
 
-
   .register-banner {
     width: 100%;
-
     padding: 14px;
   }
 
-
   .banner-content {
     min-height: 280px;
-
     padding: 26px;
   }
-
 
   .banner-bottom h1 {
     font-size: 30px;
   }
 
-
   .register-form-section {
     width: 100%;
-
     padding: 32px 26px;
   }
 }
 
-
-/* =========================
-   MOBILE
-========================= */
-
+/* MOBILE */
 @media (max-width: 520px) {
-
   .register-page {
     padding: 10px;
   }
 
-
   .banner-content {
     min-height: 240px;
-
     padding: 22px;
   }
-
 
   .banner-bottom h1 {
     font-size: 27px;
   }
 
-
   .register-form-section {
     padding: 28px 20px;
   }
-
 
   .form-header h2 {
     font-size: 24px;
   }
 
-
   .input-grid {
     grid-template-columns: 1fr;
-
     gap: 16px;
   }
 }
