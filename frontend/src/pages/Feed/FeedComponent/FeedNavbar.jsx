@@ -1,6 +1,9 @@
 import { Link } from "react-router-dom";
 
 function FeedNavbar() {
+  const username = localStorage.getItem("username") || "";
+  const initial = username.trim().charAt(0).toUpperCase() || "?";
+
   return (
     <nav className="feed-navbar">
       <Link to="/" className="feed-logo">
@@ -9,7 +12,7 @@ function FeedNavbar() {
       </Link>
 
       <Link to="/profile" className="profile-avatar" title="My profile">
-        S
+        {initial}
       </Link>
     </nav>
   );

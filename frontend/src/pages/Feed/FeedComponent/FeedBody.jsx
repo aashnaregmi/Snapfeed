@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import PostCard from "../../../components/PostCard";
+import PostCard from "../PostCardComp/PostCard";
 
 function FeedBody() {
   const [posts, setPosts] = useState([]);
@@ -24,6 +24,7 @@ function FeedBody() {
         }
 
         setPosts(Array.isArray(data) ? data : []);
+        // imagine the backend returns:{ detail: "Not authenticated" } this is obj not array so to prevent error during map
       } catch (err) {
         setError(err.message || "Something went wrong.");
       } finally {

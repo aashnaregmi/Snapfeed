@@ -7,7 +7,6 @@ function Feed() {
   return (
     <main className="feed-page">
       <div className="feed-container">
-        <FeedNavbar />
         <FeedHero />
         <FeedBody />
       </div>
