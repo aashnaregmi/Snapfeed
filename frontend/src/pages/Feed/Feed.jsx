@@ -1,5 +1,6 @@
 import FeedNavbar from "./FeedComponent/FeedNavbar";
 import FeedHero from "./FeedComponent/FeedHero";
+import FeedBody from "./FeedComponent/FeedBody";
 import "./Feed.css";
 
 function Feed() {
@@ -8,6 +9,7 @@ function Feed() {
       <div className="feed-container">
         <FeedNavbar />
         <FeedHero />
+        <FeedBody />
       </div>
     </main>
   );

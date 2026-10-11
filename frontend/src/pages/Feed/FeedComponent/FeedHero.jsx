@@ -14,16 +14,6 @@ function FeedHero() {
           Discover moments, stories, and perspectives worth sharing.
         </p>
       </div>
-
-      <div className="feed-hero-note">
-        <span className="hero-sparkle">✦</span>
-
-        <p>
-          Little moments.
-          <br />
-          Big stories.
-        </p>
-      </div>
     </section>
   );
 }
