@@ -2,7 +2,7 @@
 
 A full-stack social media application where users can register, authenticate, upload media, and view posts.
 
-**Live Demo:** [SnapFeed](https://snapfeed-seven.vercel.app/login)  
+**Live Demo:** [SnapFeed](https://snapfeed-seven.vercel.app/)  
 **Backend API Documentation:** [FastAPI Swagger UI](https://snapfeed-45ur.onrender.com/docs)
 
 ## Overview
