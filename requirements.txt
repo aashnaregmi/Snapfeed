@@ -7,3 +7,4 @@ pwdlib[argon2]
 python-jose[cryptography]
 psycopg2-binary
 email-validator
+cloudinary
