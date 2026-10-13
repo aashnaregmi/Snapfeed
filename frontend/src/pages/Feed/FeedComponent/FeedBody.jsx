@@ -24,7 +24,7 @@ function FeedBody() {
         }
 
         setPosts(Array.isArray(data) ? data : []);
-        // imagine the backend returns:{ detail: "Not authenticated" } this is obj not array so to prevent error during map
+        // imagine the backend returns:{ detail: "Not authenticated" } this is obj not array so to prevent error during map then array will remain empty 
       } catch (err) {
         setError(err.message || "Something went wrong.");
       } finally {

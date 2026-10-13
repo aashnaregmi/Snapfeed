@@ -507,3 +507,45 @@
     gap: 9px;
   }
 }
+
+.post-card-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.post-action-group {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.action-count {
+  font-size: 13px;
+  color: #6B6863;
+}
+
+.post-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  border: none;
+  background: transparent;
+  color: #000;
+  cursor: pointer;
+}
+
+.post-action.active {
+  color: #F95C4B;
+}
+
+.like-button.active {
+  color: #F95C4B;
+}
+
+.comment-button:hover,
+.save-button:hover,
+.like-button:hover {
+  opacity: 0.7;
+}
