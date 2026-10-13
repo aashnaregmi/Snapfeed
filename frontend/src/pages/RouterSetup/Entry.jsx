@@ -3,6 +3,7 @@ import {
   createBrowserRouter,
   createRoutesFromElements,
   Route,
+  Navigate,
 } from "react-router-dom";
 
 import RootLayout from "./RootLayout";
@@ -17,13 +18,13 @@ import Upload from "../Upload/Upload";
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<RootLayout />}>
-      {/* These pages do not show the navbar */}
+      {/* Authentication pages */}
       <Route path="login" element={<Login />} />
       <Route path="register" element={<Register />} />
 
-      {/* These pages share one navbar */}
+      {/* Pages sharing the main navbar */}
       <Route element={<MainLayout />}>
-        <Route index element={<Feed />} />
+        <Route index element={<Navigate to="/login" replace />} />
         <Route path="profile" element={<Profile />} />
         <Route path="upload" element={<Upload />} />
       </Route>
