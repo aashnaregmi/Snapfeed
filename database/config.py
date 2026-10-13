@@ -10,6 +10,3 @@ class Settings:
 
 
 settings = Settings()
-
-
-print("DATABASE URL:", settings.DB_URL)

@@ -1,3 +1,4 @@
+import os
 from fastapi import FastAPI, UploadFile, File, HTTPException, Depends, Form
 from pathlib import Path
 import shutil
@@ -30,7 +31,12 @@ from jose import jwt, JWTError
 
 app = FastAPI()
 
-SECRET_KEY = "mysecret"
+
+SECRET_KEY = os.getenv("SECRET_KEY")
+
+if not SECRET_KEY:
+    raise RuntimeError("SECRET_KEY environment variable is required")
+
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
@@ -274,13 +280,13 @@ async def get_my_files(
 
 
 #     return {"message": "Post deleted successfully"}
-@app.delete("/delete-all")
-def delete_all_data(db: Session = Depends(get_db)):
-    db.query(Post).delete()
-    db.query(User).delete()
-    db.commit()
+# @app.delete("/delete-all")
+# def delete_all_data(db: Session = Depends(get_db)):
+#     db.query(Post).delete()
+#     db.query(User).delete()
+#     db.commit()
 
-    return {"message": "All data deleted successfully"}
+#     return {"message": "All data deleted successfully"}
 
 
 # =========================
