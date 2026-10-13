@@ -64,6 +64,9 @@ UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
 
 app.mount("/files", StaticFiles(directory=str(UPLOAD_DIR)), name="files")
 
+# DEPLOYMENT CHANGE: Use the deployed backend's base URL for image links.
+BACKEND_URL = os.getenv("BACKEND_URL", "http://localhost:8000")
+
 ALLOWED_TYPES = {
     "image/jpeg",
     "image/png",
@@ -219,7 +222,9 @@ async def upload_post(
     with file_path.open("wb") as buffer:
         shutil.copyfileobj(file.file, buffer)
 
-    url = f"/files/{file.filename}"
+    # DEPLOYMENT CHANGE: Return an absolute URL so the Vercel frontend
+    # requests the file from Render instead of from the Vercel domain.
+    url = f"{BACKEND_URL}/files/{file.filename}"
 
     # Create a new post
     new_post = Post(
