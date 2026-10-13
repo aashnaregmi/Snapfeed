@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import FeedNavbar from "../Feed/FeedComponent/FeedNavbar";
 import "./Profile.css";
 
-// Use the deployed backend URL for local and production environments
 const API_URL = import.meta.env.VITE_API_URL;
 
 function Profile() {
@@ -87,6 +86,22 @@ function Profile() {
         setError("Unable to share your profile.");
       }
     }
+  };
+
+  // Handle Cloudinary URLs and older relative backend paths.
+  const getImageUrl = (post) => {
+    const rawImageUrl = post.media_url || post.url;
+
+    if (!rawImageUrl) return "";
+
+    if (
+      rawImageUrl.startsWith("https://") ||
+      rawImageUrl.startsWith("http://")
+    ) {
+      return rawImageUrl;
+    }
+
+    return `${API_URL}${rawImageUrl.startsWith("/") ? "" : "/"}${rawImageUrl}`;
   };
 
   return (
@@ -174,13 +189,13 @@ function Profile() {
         {!loading && !error && posts.length > 0 && (
           <div className="profile-post-grid">
             {posts.map((post) => {
-              const imageUrl = post.media_url || post.url;
+              const imageUrl = getImageUrl(post);
 
               return (
                 <article className="profile-post" key={post.id}>
                   {imageUrl ? (
                     <img
-                      src={`${API_URL}${imageUrl}`}
+                      src={imageUrl}
                       alt={post.caption || "SnapFeed post"}
                       loading="lazy"
                       onError={(e) => {

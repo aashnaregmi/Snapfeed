@@ -15,8 +15,11 @@ function PostCard({ post }) {
 
   const caption = post.caption?.trim() || "Just the moment.";
 
-  const imageUrl = post.media_url ? `${API_URL}${post.media_url}` : "";
-
+  const imageUrl = post.media_url
+    ? post.media_url.startsWith("http")
+      ? post.media_url
+      : `${API_URL}${post.media_url}`
+    : "";
   const formattedDate = post.created_at
     ? new Date(post.created_at).toLocaleDateString("en-GB", {
         day: "numeric",
