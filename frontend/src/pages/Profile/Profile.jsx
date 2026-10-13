@@ -3,7 +3,8 @@ import { Link } from "react-router-dom";
 import FeedNavbar from "../Feed/FeedComponent/FeedNavbar";
 import "./Profile.css";
 
-const API_URL = "http://127.0.0.1:8000";
+// Use the deployed backend URL for local and production environments
+const API_URL = import.meta.env.VITE_API_URL;
 
 function Profile() {
   const [posts, setPosts] = useState([]);

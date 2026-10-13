@@ -1,5 +1,8 @@
 import { useState } from "react";
 
+// Use the deployed backend URL for media
+const API_URL = import.meta.env.VITE_API_URL;
+
 function PostCard({ post }) {
   const [liked, setLiked] = useState(false);
   const [saved, setSaved] = useState(false);
@@ -12,9 +15,7 @@ function PostCard({ post }) {
 
   const caption = post.caption?.trim() || "Just the moment.";
 
-  const imageUrl = post.media_url
-    ? `http://127.0.0.1:8000${post.media_url}`
-    : "";
+  const imageUrl = post.media_url ? `${API_URL}${post.media_url}` : "";
 
   const formattedDate = post.created_at
     ? new Date(post.created_at).toLocaleDateString("en-GB", {

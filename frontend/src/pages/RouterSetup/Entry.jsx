@@ -4,6 +4,7 @@ import {
   createRoutesFromElements,
   Route,
   Navigate,
+  Outlet,
 } from "react-router-dom";
 
 import RootLayout from "./RootLayout";
@@ -15,6 +16,16 @@ import Register from "../Register/Register";
 import Profile from "../Profile/Profile";
 import Upload from "../Upload/Upload";
 
+function ProtectedRoute() {
+  const token = localStorage.getItem("access_token");
+
+  if (!token) {
+    return <Navigate to="/login" replace />;
+  }
+
+  return <Outlet />;
+}
+
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<RootLayout />}>
@@ -22,11 +33,14 @@ const router = createBrowserRouter(
       <Route path="login" element={<Login />} />
       <Route path="register" element={<Register />} />
 
-      {/* Pages sharing the main navbar */}
-      <Route element={<MainLayout />}>
-        <Route index element={<Navigate to="/login" replace />} />
-        <Route path="profile" element={<Profile />} />
-        <Route path="upload" element={<Upload />} />
+      {/* Protected pages */}
+      <Route element={<ProtectedRoute />}>
+        <Route element={<MainLayout />}>
+          <Route index element={<Navigate to="/feed" replace />} />
+          <Route path="feed" element={<Feed />} />
+          <Route path="profile" element={<Profile />} />
+          <Route path="upload" element={<Upload />} />
+        </Route>
       </Route>
     </Route>,
   ),

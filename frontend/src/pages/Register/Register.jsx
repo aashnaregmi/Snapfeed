@@ -2,9 +2,14 @@ import { useState } from "react";
 import "./Register.css";
 import { useNavigate } from "react-router-dom";
 
+// Read the backend URL from the frontend/.env file.
+const API_URL = import.meta.env.VITE_API_URL;
+
 function Register() {
+  // Allows navigation to another route, such as the login page.
   const navigate = useNavigate();
 
+  // Store all registration form values in one object.
   const [formData, setFormData] = useState({
     name: "",
     dob: "",
@@ -15,55 +20,70 @@ function Register() {
     confirm_password: "",
   });
 
+  // Control whether each password field is visible or hidden.
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
+  // Store messages that will be displayed to the user.
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
+  // Handle changes in the input fields.
   const handleChange = (e) => {
+    // Get the name and current value of the input that changed.
     const { name, value } = e.target;
 
     setFormData({
-      ...formData,
-      [name]: value,
+      ...formData, // Preserve the other form values.
+      [name]: value, // Update only the field that changed.
     });
   };
 
+  // Handle form submission and communicate with the backend.
   const handleSubmit = async (e) => {
+    // Prevent the browser from reloading the page on submission.
     e.preventDefault();
 
+    // Clear messages from a previous submission.
     setError("");
     setSuccess("");
 
+    // Check that both password fields match before sending the request.
     if (formData.password !== formData.confirm_password) {
       setError("Passwords do not match");
-      return;
+      return; // Stop submission if the passwords do not match.
     }
 
     try {
-      const response = await fetch("http://127.0.0.1:8000/register", {
-        method: "POST",
+      // Send the registration data to the FastAPI backend.
+      const response = await fetch(`${API_URL}/register`, {
+        method: "POST", // POST sends data to create a new account.
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "application/json", // Tell the backend the body is JSON.
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(formData), // Convert the JavaScript object to JSON.
       });
 
+      // Convert the server's JSON response into a JavaScript object.
       const data = await response.json();
 
+      // Handle unsuccessful HTTP responses.
       if (!response.ok) {
         throw new Error(data.detail || "Registration failed");
       }
 
+      // Display the success message returned by the backend.
       setSuccess(data.message || "Registration successful!");
 
+      // Log the response for development debugging.
       console.log("Registration successful:", data);
 
+      // Redirect the user to the login page after one second.
       setTimeout(() => {
         navigate("/login");
       }, 1000);
     } catch (error) {
+      // Handle network errors and errors thrown in the try block.
       console.error("Registration error:", error);
       setError(error.message);
     }
@@ -72,7 +92,7 @@ function Register() {
   return (
     <div className="register-page">
       <div className="register-card">
-        {/* LEFT BANNER */}
+        {/* LEFT BANNER: Branding and introductory text */}
         <div className="register-banner">
           <div className="banner-content">
             <div className="banner-logo">✦</div>
@@ -91,13 +111,14 @@ function Register() {
           </div>
         </div>
 
-        {/* RIGHT FORM */}
+        {/* RIGHT FORM: Registration fields and submission */}
         <div className="register-form-section">
           <div className="form-header">
             <h2>Create your SnapFeed account</h2>
             <p>Join SnapFeed and start sharing your perspective.</p>
           </div>
 
+          {/* Call handleSubmit when the user submits the form. */}
           <form onSubmit={handleSubmit}>
             {/* FULL NAME + USERNAME */}
             <div className="input-grid">
@@ -194,6 +215,7 @@ function Register() {
                     required
                   />
 
+                  {/* Toggle the password between visible and hidden. */}
                   <button
                     type="button"
                     className="register-password-toggle"
@@ -218,6 +240,7 @@ function Register() {
                     required
                   />
 
+                  {/* Toggle confirmation-password visibility. */}
                   <button
                     type="button"
                     className="register-password-toggle"
@@ -229,19 +252,19 @@ function Register() {
               </div>
             </div>
 
-            {/* REGISTER BUTTON */}
+            {/* Submit the registration form. */}
             <button type="submit" className="register-button">
               Create Account
             </button>
 
-            {/* ERROR */}
+            {/* Show the error message only when an error exists. */}
             {error && <p className="form-error">{error}</p>}
 
-            {/* SUCCESS */}
+            {/* Show the success message only when registration succeeds. */}
             {success && <p className="form-success">{success}</p>}
           </form>
 
-          {/* LOGIN FOOTER */}
+          {/* LOGIN FOOTER: Navigate to login for existing users. */}
           <p className="login-footer">
             Already have an account?{" "}
             <button

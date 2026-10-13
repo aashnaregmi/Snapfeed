@@ -5,6 +5,9 @@ import FileUpload from "./FileUpload";
 import "./Upload.css";
 import FeedNavbar from "../Feed/FeedComponent/FeedNavbar";
 
+// Use the deployed backend URL for uploading posts
+const API_URL = import.meta.env.VITE_API_URL;
+
 function Upload() {
   const [file, setFile] = useState(null);
   const [caption, setCaption] = useState("");
@@ -60,7 +63,8 @@ function Upload() {
       setLoading(true);
       setMessage("");
 
-      const response = await fetch("http://127.0.0.1:8000/upload", {
+      // Send the upload request to the deployed backend
+      const response = await fetch(`${API_URL}/upload`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,

@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "./Login.css";
+import "./login.css";
+
+// Use the deployed backend URL from the environment variable
+const API_URL = import.meta.env.VITE_API_URL;
 
 function Login() {
   const navigate = useNavigate();
@@ -39,7 +42,8 @@ function Login() {
     formData.append("password", loginData.password);
 
     try {
-      const response = await fetch("http://127.0.0.1:8000/login", {
+      // Send the login request to the deployed backend
+      const response = await fetch(`${API_URL}/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",

@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import PostCard from "../PostCardComp/PostCard";
 
+// Use the deployed backend URL for fetching posts
+const API_URL = import.meta.env.VITE_API_URL;
+
 function FeedBody() {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -11,7 +14,7 @@ function FeedBody() {
       try {
         const token = localStorage.getItem("access_token");
 
-        const response = await fetch("http://127.0.0.1:8000/posts", {
+        const response = await fetch(`${API_URL}/posts`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -24,7 +27,7 @@ function FeedBody() {
         }
 
         setPosts(Array.isArray(data) ? data : []);
-        // imagine the backend returns:{ detail: "Not authenticated" } this is obj not array so to prevent error during map then array will remain empty 
+        // imagine the backend returns:{ detail: "Not authenticated" } this is obj not array so to prevent error during map then array will remain empty
       } catch (err) {
         setError(err.message || "Something went wrong.");
       } finally {
