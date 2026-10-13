@@ -4,3 +4,10 @@ __pycache__/
 .env
 uploads/
 .DS_Store
+
+# Node dependencies
+node_modules/
+
+# Build output
+dist/
+build/

@@ -1,4 +1,4 @@
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, EmailStr, Field
 from datetime import date, datetime
 
 
@@ -24,11 +24,5 @@ class RegisterRequest(BaseModel):
     confirm_password: str
 
 
-class ForgotPasswordRequest(BaseModel):
-    email: EmailStr
-
-
-class ResetPasswordRequest(BaseModel):
-    token: str
-    new_password: str
-    confirm_password: str
+class UpdateProfileRequest(BaseModel):
+    bio: str = Field(default="", max_length=160)

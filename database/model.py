@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, DateTime, Date
+from sqlalchemy import Column, Integer, String, DateTime, Date, Text
 from datetime import datetime
 
 from database.db import Base
@@ -38,3 +38,4 @@ class User(Base):
     password = Column(String, nullable=False)
 
     created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
+    bio = Column(Text, nullable=True)

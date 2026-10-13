@@ -2,8 +2,7 @@ from fastapi import FastAPI, UploadFile, File, HTTPException, Depends, Form
 from pathlib import Path
 import shutil
 from sqlalchemy.orm import Session
-
-from backend.feed.schema import PostResponse, RegisterRequest, ForgotPasswordRequest
+from backend.feed.schema import PostResponse, RegisterRequest, UpdateProfileRequest
 from database.db import Base, engine, SessionLocal
 from database.model import Post, User
 from fastapi.middleware.cors import CORSMiddleware
@@ -25,6 +24,9 @@ from datetime import datetime, timedelta, timezone
 #  Import OAuth2PasswordBearer
 from fastapi.security import OAuth2PasswordBearer
 from jose import jwt, JWTError
+
+#
+
 
 app = FastAPI()
 
@@ -281,12 +283,52 @@ def delete_all_data(db: Session = Depends(get_db)):
     return {"message": "All data deleted successfully"}
 
 
-# fogot pw
-@app.post("/forgot-password")
-def forgot_password(data: ForgotPasswordRequest, db: Session = Depends(get_db)):
-    user = db.query(User).filter(User.email == data.email).first()
+# =========================
+# My Profile
+# =========================
 
-    if not user:
-        raise HTTPException(status_code=404, detail="Email not registered")
 
-    return {"message": "Password reset request received"}
+@app.get("/me")
+def get_my_profile(
+    username: str = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    current_user = db.query(User).filter(User.username == username).first()
+
+    if current_user is None:
+        raise HTTPException(
+            status_code=404,
+            detail="User not found",
+        )
+
+    return {
+        "name": current_user.name,
+        "username": current_user.username,
+        "email": current_user.email,
+        "bio": current_user.bio or "",
+    }
+
+
+@app.patch("/me")
+def update_my_profile(
+    data: UpdateProfileRequest,
+    username: str = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    current_user = db.query(User).filter(User.username == username).first()
+
+    if current_user is None:
+        raise HTTPException(
+            status_code=404,
+            detail="User not found",
+        )
+
+    current_user.bio = data.bio.strip()
+
+    db.commit()
+    db.refresh(current_user)
+
+    return {
+        "message": "Profile updated successfully",
+        "bio": current_user.bio or "",
+    }
