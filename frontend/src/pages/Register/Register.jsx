@@ -26,10 +26,43 @@ function Register() {
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-    setFormData({
-      ...formData,
+    setFormData((prev) => ({
+      ...prev,
       [name]: value,
-    });
+    }));
+  };
+
+  // Convert FastAPI errors into readable messages.
+  const getErrorMessage = (detail) => {
+    if (typeof detail === "string") {
+      return detail;
+    }
+
+    if (Array.isArray(detail)) {
+      return detail
+        .map((item) => {
+          if (typeof item === "string") {
+            return item;
+          }
+
+          const field = Array.isArray(item.loc)
+            ? item.loc[item.loc.length - 1]
+            : "";
+
+          const message = item.msg || "Invalid value";
+
+          return field
+            ? `${String(field).replaceAll("_", " ")}: ${message}`
+            : message;
+        })
+        .join(". ");
+    }
+
+    if (detail && typeof detail === "object") {
+      return detail.msg || detail.message || "Registration failed";
+    }
+
+    return "Registration failed. Please try again.";
   };
 
   const handleSubmit = async (e) => {
@@ -39,7 +72,7 @@ function Register() {
     setSuccess("");
 
     if (formData.password !== formData.confirm_password) {
-      setError("Passwords do not match");
+      setError("Passwords do not match.");
       return;
     }
 
@@ -55,7 +88,7 @@ function Register() {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.detail || "Registration failed");
+        throw new Error(getErrorMessage(data.detail));
       }
 
       setSuccess(data.message || "Registration successful!");
@@ -67,7 +100,14 @@ function Register() {
       }, 1000);
     } catch (error) {
       console.error("Registration error:", error);
-      setError(error.message);
+
+      if (error instanceof TypeError) {
+        setError(
+          "Unable to connect to the server. Please check your connection and try again.",
+        );
+      } else {
+        setError(error.message || "Registration failed. Please try again.");
+      }
     }
   };
 
@@ -199,7 +239,10 @@ function Register() {
                   <button
                     type="button"
                     className="register-password-toggle"
-                    onClick={() => setShowPassword(!showPassword)}
+                    onClick={() => setShowPassword((prev) => !prev)}
+                    aria-label={
+                      showPassword ? "Hide password" : "Show password"
+                    }
                   >
                     {showPassword ? "◉" : "◌"}
                   </button>
@@ -223,7 +266,12 @@ function Register() {
                   <button
                     type="button"
                     className="register-password-toggle"
-                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                    onClick={() => setShowConfirmPassword((prev) => !prev)}
+                    aria-label={
+                      showConfirmPassword
+                        ? "Hide confirm password"
+                        : "Show confirm password"
+                    }
                   >
                     {showConfirmPassword ? "◉" : "◌"}
                   </button>
@@ -237,10 +285,18 @@ function Register() {
             </button>
 
             {/* ERROR */}
-            {error && <p className="form-error">{error}</p>}
+            {error && (
+              <p className="form-error" role="alert">
+                {error}
+              </p>
+            )}
 
             {/* SUCCESS */}
-            {success && <p className="form-success">{success}</p>}
+            {success && (
+              <p className="form-success" role="status">
+                {success}
+              </p>
+            )}
           </form>
 
           {/* LOGIN FOOTER */}
